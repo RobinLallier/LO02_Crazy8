@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class Partie {
 
+	private static Partie instancePartie;
 	private int nbJoueursVirtuels ;
 	private int nbJoueursEnCours ;
 	private String etat ;
@@ -15,14 +16,9 @@ public class Partie {
 	private Variante variantePartie;
 	private Pioche pioche;
 	
-	
-	@SuppressWarnings("unused")
-	private static boolean uniqueInstance; //mettre la partie en singleton?
-	
 
 	
-	
-	public Partie() {
+	private Partie() {
 		
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
@@ -72,7 +68,12 @@ public class Partie {
 		
 	}
 
-
+	public static Partie getPartie() {
+		if (Partie.instancePartie==null)
+		{Partie.instancePartie= new Partie();}
+		
+		return Partie.instancePartie;		
+	}
 
 
 
@@ -87,8 +88,8 @@ public class Partie {
 	    
 	    while (P.etat=="EN COURS") // tant que la partie est en cours
 	    	{
-	    // P.tourJoueur correspond au numéro du joueur qui doit jouer
-	    	P.joueur[P.tourJoueur-1].jouerTour(P); // l'incrémentation ou la décrémentation de "tourJoueur" est gérée dans la methode "jouerTour()" ,car, selon la carte posée, un tour peut etre sauté ou le sens du jeu peut être changé
+	    // P.tourJoueur correspond au numÃ©ro du joueur qui doit jouer
+	    	P.joueur[P.tourJoueur-1].jouerTour(P); // l'incrémentation ou la décrémentation de "tourJoueur" est générée dans la methode "jouerTour()" ,car, selon la carte posée, un tour peut etre sauté ou le sens du jeu peut être changé
 
 	    	}
 	    
@@ -256,4 +257,3 @@ public class Partie {
 	}
 
 }
-	
