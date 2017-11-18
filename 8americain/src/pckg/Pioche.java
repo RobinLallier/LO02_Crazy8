@@ -1,25 +1,23 @@
 package pckg;
 
-/**
- * 
- */
-
-/**
- * @author charl
- *
- */
-
-//import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.Random;
 
-
+/**
+ * Pioche est la classe qui représente la pioche. Elle permet de mélanger le paquet de cartes, 
+ * de distribuer des cartes aléatoirement aux joueurs, et aux joueurs de piocher. 
+ * Elle hérite de PorteurCarte qui définit les collections de cartes.
+ * @author Robin & Charlène
+ * @see PorteurCarte
+ */
 public class Pioche extends PorteurCarte {
 	
 	/**
-	 * 
+	 * Constructeur de la classe Pioche, il permet de créer le paquet de cartes. Chaque carte appartient à une famille et a une valeur,
+	 * et chaque carte est unique.
+	 * @see Variante
 	 */
 	public Pioche(Partie P) {
-		//int i=0;
 		//nb cartes definie dans la variante
 		this.nbCartes=P.getVariantePartie().getNbCartes();
 	    //this.cartes=new Carte[this.nbCartes];
@@ -31,14 +29,26 @@ public class Pioche extends PorteurCarte {
 				for(String valeur : valeurs){
 					Carte carte = new Carte(valeur,symbole);
 					this.cartes.add(carte); // on crée un jeu de cartes dont le nombre de cartes dépend de la variante
-					//i++;
 					}
 			}
 		
 		}
 
-	public void piocher() {
-		
+	/**
+	 * Méthode permettant à un joueur de piocher une carte dans la pioche. 
+	 * @param cartes donne la main du joueur, pour y ajouter une carte
+	 * @param nombrePioche indique combien de cartes le joueur doit piocher
+	 * @see Joueur
+	 */
+	public void piocher(ArrayList<Carte> cartes, int nombrePioche) {
+		//la boucle tourne autant de fois que le joueur doit piocher
+		for (int i=0;i<=nombrePioche;i++) {
+			//Ajoute aux cartes du joueur la dernière carte de la pioche
+			cartes.add(this.cartes.get(this.cartes.size()));
+			//Retire cette carte de la pioche
+			this.cartes.remove(this.cartes.size());
+		}
+		System.out.println("Le joueur a pioché");
 	}
 	
 	public void melanger() {
@@ -47,6 +57,7 @@ public class Pioche extends PorteurCarte {
 		int i,j;
 		
 		for (j=0;j<5;j++) { // on répète 5 fois pour un meilleur melange
+			//je suis pas sûr que ça soit nécessaire, ici c'est fait au hasard!
 			for (i=0;i<this.nbCartes;i++) {
 		
 				Random r = new Random();

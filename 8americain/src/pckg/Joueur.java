@@ -67,6 +67,9 @@ public abstract class Joueur extends PorteurCarte {
 	 * @param P
 	 */
 	public void jouerTour(Partie p) {
+	//0. Vérifier qu'il n'y a pas de cartes à piocher
+		
+		
 	//1. on vérifie si le joueur peut jouer avec les cartes qu'il a dans la main
 		if ( Variante.estPossibleDeJouer(this.cartes, p)) {
 	//2.1. Le joueur choisit la carte qu'il désire poser sur le talon.
@@ -86,7 +89,7 @@ public abstract class Joueur extends PorteurCarte {
 	//2.2. Le joueur ne peut jouer aucune carte, donc il pioche.
 		else {
 			System.out.println("Vous ne pouvez pas jouer, vous piochez.");
-			p.getPioche().piocher();
+			p.getPioche().piocher(this.cartes, 1);
 		}
 	}
 	
