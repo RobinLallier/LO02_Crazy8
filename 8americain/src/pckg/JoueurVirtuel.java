@@ -14,10 +14,15 @@ public class JoueurVirtuel extends Joueur{
 		
 	}
 
+	@Override
+	public void jouerTour() {
+		
+		
+	}
 	
-	public Carte choisirCarte() {
+	public int choisirCarte() {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 
@@ -34,8 +39,4 @@ public class JoueurVirtuel extends Joueur{
 		
 	}
 
-	/*public void main(String[] args) {
-		JoueurVirtuel joueur = new JoueurVirtuel();
-		System.out.println(joueur.getName());
-	}*/
 }
