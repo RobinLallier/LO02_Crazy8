@@ -3,7 +3,7 @@ package pckg;
 import java.util.ArrayList;
 
 /**
- * @author charlene
+ * @author Robin et Charlène
  *
  */
 public abstract class Variante {
@@ -13,12 +13,7 @@ public abstract class Variante {
 	 */
 	protected Carte[] carteSpeciale;
 	protected int nbCartes;
-	/**
-	 * @return the nbCartes
-	 */
-	public int getNbCartes() {
-		return nbCartes;
-	}
+	protected ArrayList<Carte> jeuDeCartes= new ArrayList<Carte>();
 
 	/**
 	 * @param nbCartes the nbCartes to set
@@ -29,16 +24,17 @@ public abstract class Variante {
 
 	public abstract String effetCarte(Carte carte); 
 	
-	public static boolean estCompatible(Carte carte, Partie P) {
+	public boolean estCompatible(Carte carte) {
 	Carte carteDessusTalon;
-	Talon talon = P.getTalon();
+	Talon talon = Partie.getPartie().getTalon();
 	carteDessusTalon = talon.getCarteDessus();
 	String carteSymbole= carte.getSymbole();
 	String carteDessusTalonSymbole=carteDessusTalon.getSymbole();
 	String carteValeur= carte.getValeur();
 	String carteDessusTalonValeur=carteDessusTalon.getValeur();
 	
-	if(carteSymbole==carteDessusTalonSymbole ||carteValeur==carteDessusTalonValeur ) {
+	if(carteSymbole.equals(carteDessusTalonSymbole) ||carteValeur.equals(carteDessusTalonValeur)) 
+	{
 		return true;
 	}
 	else {
@@ -46,6 +42,8 @@ public abstract class Variante {
 	}
 		
 	}
+	
+	public abstract boolean estPossibleDeJouer(ArrayList<Carte> carte);
 
 	
 	/**
@@ -62,15 +60,14 @@ public abstract class Variante {
 		this.carteSpeciale = carteSpeciale;
 	}
 
-	public static void main(String[] args) {
-		
-
+	public ArrayList<Carte> getCartes() {
+		return jeuDeCartes;
 	}
-
-	public static boolean estPossibleDeJouer(ArrayList<Carte> cartes, Partie p) {
-		// TODO Auto-generated method stub
-		return false;
+	
+	public int getNbCartes() {
+		return nbCartes;
 	}
-
+	
 }
+
 
