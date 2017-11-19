@@ -13,26 +13,24 @@ import java.util.Random;
 public class Pioche extends PorteurCarte {
 	
 	/**
-	 * Constructeur de la classe Pioche, il permet de créer le paquet de cartes. Chaque carte appartient à une famille et a une valeur,
+	 * Constructeur de la classe Pioche, il permet placer le paquet de cartes créé dans la variante dans la pioche. Chaque carte appartient à une famille et a une valeur,
 	 * et chaque carte est unique.
 	 * @see Variante
 	 */
-	public Pioche(Partie P) {
+	public Pioche() {
 		//nb cartes definie dans la variante
-		this.nbCartes=P.getVariantePartie().getNbCartes();
-	    //this.cartes=new Carte[this.nbCartes];
-	    String[] symboles=new String[]{"TREFLE","COEUR","CARREAU","PIQUE"};
-		String[] valeurs=new String[]{"1","2","3","4","5","6","7","8","9","10","VALET","DAME","ROI"};
-
-			for(String symbole : symboles) {
+		int i;
+		this.nbCartes=Partie.getPartie().getVariantePartie().getNbCartes();
+	  			for(i=this.nbCartes-1;i>=0;i--) {
 				
-				for(String valeur : valeurs){
-					Carte carte = new Carte(valeur,symbole);
-					this.cartes.add(carte); // on crée un jeu de cartes dont le nombre de cartes dépend de la variante
-					}
-			}
-		
+					Carte carte = Partie.getPartie().getVariantePartie().getCartes().get(i);
+					Partie.getPartie().getVariantePartie().getCartes().remove(i);
+					this.cartes.add(carte); //on place tout le jeu de cartes créé dans la variante dans la pioche
+				}
+
 		}
+		
+		
 
 	/**
 	 * Méthode permettant à un joueur de piocher une carte dans la pioche. 
@@ -52,16 +50,14 @@ public class Pioche extends PorteurCarte {
 	}
 	
 	public void melanger() {
-		
+
 		int place;
-		int i,j;
+		int i;
 		
-		for (j=0;j<5;j++) { // on répète 5 fois pour un meilleur melange
-			//je suis pas sûr que ça soit nécessaire, ici c'est fait au hasard!
 			for (i=0;i<this.nbCartes;i++) {
 		
 				Random r = new Random();
-				place = 0 + r.nextInt(this.nbCartes - 1);// on choisit une place aleatoirement dans le paquet 
+				place = 0 + r.nextInt(this.nbCartes - 1);// on choisit une place aleatoirement dans le paquet (nombre choisi entre 0 et nbCartes-1)
 				// on échange les cartes
 				Carte c=this.cartes.get(place); // on met dans la référence c la carte qui est la place "place"
 				this.cartes.set(place, this.cartes.get(i)); // on met à la position "place" la carte qui est à la position i
@@ -69,37 +65,41 @@ public class Pioche extends PorteurCarte {
 		
 			
 			}
-		}
+	
 		
 		
 	}
 	
-	public void distribuer(Partie P) {
-		int nbJoueurs= P.getNbJoueursVirtuels()+1;
+	public void distribuer() {
+		int nbJoueurs= Partie.getPartie().getNbJoueursVirtuels()+1;
 		int tour=0;
 		int i;
 		while (tour<8) // on distribue 8 cartes chacuns
 		{
 			for (i=0;i<nbJoueurs;i++) {
 				
-			P.getJoueur()[i].getCartes().add(P.getPioche().getCartes().get(P.getPioche().getNbCartes()-1)); // on ajoute une carte dans le jeu du joueur i : celle qui est au dessus de la pioche
-			P.getJoueur()[i].setNbCartes(P.getJoueur()[i].getNbCartes()+1); // on enleve une carte à la pioche
+			Partie.getPartie().getJoueur()[i].getCartes().add(this.cartes.get(this.nbCartes-1)); // on ajoute une carte dans le jeu du joueur i : celle qui est au dessus de la pioche
+			Partie.getPartie().getJoueur()[i].setNbCartes(Partie.getPartie().getJoueur()[i].getNbCartes()+1); // on enleve une carte à la pioche
 
 			
-			P.getPioche().getCartes().remove(P.getPioche().getNbCartes()-1); // on supprime cette carte de la pioche
+			this.cartes.remove(this.nbCartes-1); // on supprime cette carte de la pioche
 
 			// la carte du dessus de la pioche va dans le jeu de carte du joueur "i" au tour numéro "tour"
-			P.getPioche().setNbCartes(P.getPioche().getNbCartes()-1); // on enleve une carte à la pioche
+			this.nbCartes--; // on enleve une carte à la pioche
 			
 			}
 			tour ++;
-			
-			
 		}
-		System.out.println(P.getJoueur()[0].getCartes().get(0));		//TEST
-		System.out.println(P.getJoueur()[0].getNbCartes());		//TEST
+		//derniere carte = carte du talon
+		Partie.getPartie().getTalon().setCarteDessus(this.cartes.get(this.nbCartes-1));
+		this.cartes.remove(this.nbCartes-1);
+		this.nbCartes--;
+	
+		
+		/*System.out.println(Partie.getPartie().getJoueur()[0].getCartes().get(0));		//TEST
+		System.out.println(Partie.getPartie().getJoueur()[0].getNbCartes());		//TEST
 
-		System.out.println(P.getPioche().getNbCartes());		//TEST
+		System.out.println(Partie.getPartie().getPioche().getNbCartes());		//TEST*/
 
 		
 	}
