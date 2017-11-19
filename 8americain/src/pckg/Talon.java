@@ -4,8 +4,10 @@ package pckg;
  * 
  */
 
+
+
 /**
- * @author charl
+ * @author Robin et Charlene
  *
  */
 public class Talon extends PorteurCarte{
@@ -25,10 +27,6 @@ public class Talon extends PorteurCarte{
 	//}
 	public void setCarteDessus(Carte carteDessus) {
 		this.carteDessus = carteDessus;
-	}
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
