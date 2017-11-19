@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class Partie {
 
+	private static Partie instancePartie;
 	private int nbJoueursVirtuels ;
 	private int nbJoueursEnCours ;
 	private String etat ;
@@ -15,18 +16,13 @@ public class Partie {
 	private Variante variantePartie;
 	private Pioche pioche;
 	
-	
-	@SuppressWarnings("unused")
-	private static boolean uniqueInstance; //mettre la partie en singleton?
-	
 
 	
-	
-	public Partie() {
+	private Partie() {
 		
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
-	    System.out.println("Saisissez le nombre de joueurs virtuels (maximum 4) : \n "); // le joueur physique choisit le nombre de joueurs virtuels
+	    System.out.println("Saisissez le nombre de joueurs virtuels (maximum 4) :"); // le joueur physique choisit le nombre de joueurs virtuels
 	    int nbJoueursVirtuels = sc.nextInt();
 		setNbJoueursVirtuels(nbJoueursVirtuels);
 		
@@ -57,39 +53,51 @@ public class Partie {
 		int variante = sc.nextInt();
 		if (variante == 1 )
 		{
-			this.variantePartie= new VarianteMinimale(this);
+			this.variantePartie= new VarianteMinimale();
 			System.out.println("Variante minimale choisie");
 
 		}
 		else {
 			System.out.println("Erreur : variante inexistante");
-
 		}
 		
-		//creation de la pioche
-		this.pioche=new Pioche(this);
-		
-		
+				
 	}
-
-
+/** Singleton 
+ * *
+ * 
+ * @return Partie instance unique de la classe Partie
+ */
+	public static Partie getPartie() {
+		
+		if (Partie.instancePartie==null)
+			
+		{
+			Partie.instancePartie= new Partie();
+												}
+		
+		return Partie.instancePartie;		
+	}
 
 
 
 	public static void main(String[] args) {
 		
 	   	 //creation d'une partie
-		Partie P = new Partie();
+		Partie p = Partie.getPartie();
+		//creation de la pioche
+		p.pioche =new Pioche();
+
 		// on melange la pioche
-	    P.pioche.melanger();
+	    p.pioche.melanger();
 	    // on distribue la pioche
-	    P.pioche.distribuer(P);
+	    p.pioche.distribuer();
 	    
-	    while (P.etat=="EN COURS") // tant que la partie est en cours
+	    while (p.etat=="EN COURS") // tant que la partie est en cours
 	    	{
 	    // P.tourJoueur correspond au numéro du joueur qui doit jouer
-	    	P.joueur[P.tourJoueur-1].jouerTour(P); // l'incrémentation ou la décrémentation de "tourJoueur" est gérée dans la methode "jouerTour()" ,car, selon la carte posée, un tour peut etre sauté ou le sens du jeu peut être changé
-
+	    	//p.joueur[p.tourJoueur-1].jouerTour(); // l'incrémentation ou la décrémentation de "tourJoueur" est gérée dans la methode "jouerTour()" ,car, selon la carte posée, un tour peut etre sauté ou le sens du jeu peut être changé
+	    	p.joueur[0].jouerTour();//TEST SUR JOUEUR PHYSIQUE
 	    	}
 	    
 	}
@@ -256,4 +264,3 @@ public class Partie {
 	}
 
 }
-	
