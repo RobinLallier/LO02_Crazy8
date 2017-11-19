@@ -8,7 +8,7 @@ import pckg.comportement.Effet;
  */
 
 /**
- * @author charlene
+ * @author Robin et Charlène
  *
  */
 public class Carte {
@@ -56,7 +56,7 @@ public void appliquerEffet() {
 	 * @return the symbole
 	 */
 	public String getSymbole() {
-		return symbole;
+		return this.symbole;
 	}
 
 	/**
@@ -70,7 +70,7 @@ public void appliquerEffet() {
 	 * @return the valeur
 	 */
 	public String getValeur() {
-		return valeur;
+		return this.valeur;
 	}
 
 	/**
@@ -81,7 +81,8 @@ public void appliquerEffet() {
 	}
 
 	public String toString () {
-	return "Carte : Symbole="+ this.symbole+" Valeur="+this.valeur;
+	return valeur + " de " + symbole;
+	
 	}
 
 }
