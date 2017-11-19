@@ -66,39 +66,41 @@ public abstract class Joueur extends PorteurCarte {
 	 * choisir une carte dans son jeu et la poser sur le talon.
 	 * @param P
 	 */
-	public void jouerTour(Partie p) {
-	//0. Vérifier qu'il n'y a pas de cartes à piocher
-		
-		
+	public void jouerTour() {
 	//1. on vérifie si le joueur peut jouer avec les cartes qu'il a dans la main
-		if ( Variante.estPossibleDeJouer(this.cartes, p)) {
-	//2.1. Le joueur choisit la carte qu'il désire poser sur le talon.
-			System.out.println("Choisissez la carte que vous souhaitez jouer");
-			Carte cartePose = choisirCarte();
+		if (Partie.getPartie().getVariantePartie().estPossibleDeJouer(this.cartes)) {
+	//2.1. Le joueur choisit la carte qu'il desire poser sur le talon.
+			System.out.println("Choisissez la carte que vous souhaitez jouer :");
+			int numeroCarte = this.choisirCarte();
+			Carte cartePose = this.cartes.get(numeroCarte);
 	//3.1. Si le joueur choisit une carte qu'il ne peut pas jouer, 
-		// il rentre dans une boucle jusqu'à ce qu'il choisisse une bonne carte
-			while  (! Variante.estCompatible(cartePose, p)) {
+		// il rentre dans une boucle jusqu'à  ce qu'il choisisse une bonne carte
+			while  (!Partie.getPartie().getVariantePartie().estCompatible(cartePose)) {
 				System.out.println("Cette carte ne peut être jouée, choisissez en une autre");
-				cartePose = choisirCarte();
+				numeroCarte= this.choisirCarte();
+				cartePose = this.cartes.get(numeroCarte);
 			}
+			System.out.println("Vous posez"+ cartePose);
 	//4.1 Le joueur pose la carte choisie sur le talon.
-			p.getTalon().setCarteDessus(cartePose);
+			Partie.getPartie().getTalon().setCarteDessus(cartePose);
 	//5.1 Le joueur perd la carte qu'il a posée de sa main
 			cartes.remove(cartePose);
 		}
 	//2.2. Le joueur ne peut jouer aucune carte, donc il pioche.
 		else {
 			System.out.println("Vous ne pouvez pas jouer, vous piochez.");
-			p.getPioche().piocher(this.cartes, 1);
+			Partie.getPartie().getPioche().piocher(this.cartes,1);
 		}
 	}
 	
 	
 	public abstract void changerFamille();
 	
-	public abstract Carte choisirCarte();
+	public abstract int choisirCarte();
 	public abstract void DireCarte();
 	public abstract void DireContreCarte();
 }
 	
+
+
 
